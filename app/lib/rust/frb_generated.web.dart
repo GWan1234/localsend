@@ -33,11 +33,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_RtcFileSenderPtr =>
       wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCFileSender;
 
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_RtcReceiveStatePtr =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveState;
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_RtcReceiveControllerPtr =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveController;
 
-  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_RtcSendStatePtr =>
-      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendState;
+  CrossPlatformFinalizerArg get rust_arc_decrement_strong_count_RtcSendControllerPtr =>
+      wire.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendController;
 
   @protected
   AnyhowException dco_decode_AnyhowException(dynamic raw);
@@ -52,16 +52,16 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   RtcFileSender dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCFileSender(dynamic raw);
 
   @protected
-  RtcReceiveState dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveState(dynamic raw);
+  RtcReceiveController dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveController(dynamic raw);
 
   @protected
-  RtcSendState dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendState(dynamic raw);
+  RtcSendController dco_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendController(dynamic raw);
 
   @protected
-  RtcReceiveState dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveState(dynamic raw);
+  RtcReceiveController dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveController(dynamic raw);
 
   @protected
-  RtcSendState dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendState(dynamic raw);
+  RtcSendController dco_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendController(dynamic raw);
 
   @protected
   LsSignalingConnection dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLsSignalingConnection(dynamic raw);
@@ -73,10 +73,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   RtcFileSender dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCFileSender(dynamic raw);
 
   @protected
-  RtcReceiveState dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveState(dynamic raw);
+  RtcReceiveController dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveController(dynamic raw);
 
   @protected
-  RtcSendState dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendState(dynamic raw);
+  RtcSendController dco_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendController(dynamic raw);
 
   @protected
   FutureOr<void> Function(LsSignalingConnection)
@@ -96,10 +96,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   RtcFileSender dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCFileSender(dynamic raw);
 
   @protected
-  RtcReceiveState dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveState(dynamic raw);
+  RtcReceiveController dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveController(dynamic raw);
 
   @protected
-  RtcSendState dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendState(dynamic raw);
+  RtcSendController dco_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendController(dynamic raw);
 
   @protected
   Set<String> dco_decode_Set_String(dynamic raw);
@@ -245,16 +245,20 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   RtcFileSender sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCFileSender(SseDeserializer deserializer);
 
   @protected
-  RtcReceiveState sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveState(SseDeserializer deserializer);
+  RtcReceiveController sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveController(
+      SseDeserializer deserializer);
 
   @protected
-  RtcSendState sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendState(SseDeserializer deserializer);
+  RtcSendController sse_decode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendController(
+      SseDeserializer deserializer);
 
   @protected
-  RtcReceiveState sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveState(SseDeserializer deserializer);
+  RtcReceiveController sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveController(
+      SseDeserializer deserializer);
 
   @protected
-  RtcSendState sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendState(SseDeserializer deserializer);
+  RtcSendController sse_decode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendController(
+      SseDeserializer deserializer);
 
   @protected
   LsSignalingConnection sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLsSignalingConnection(
@@ -267,10 +271,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   RtcFileSender sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCFileSender(SseDeserializer deserializer);
 
   @protected
-  RtcReceiveState sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveState(SseDeserializer deserializer);
+  RtcReceiveController sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveController(
+      SseDeserializer deserializer);
 
   @protected
-  RtcSendState sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendState(SseDeserializer deserializer);
+  RtcSendController sse_decode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendController(SseDeserializer deserializer);
 
   @protected
   Object sse_decode_DartOpaque(SseDeserializer deserializer);
@@ -285,10 +290,10 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   RtcFileSender sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCFileSender(SseDeserializer deserializer);
 
   @protected
-  RtcReceiveState sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveState(SseDeserializer deserializer);
+  RtcReceiveController sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveController(SseDeserializer deserializer);
 
   @protected
-  RtcSendState sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendState(SseDeserializer deserializer);
+  RtcSendController sse_decode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendController(SseDeserializer deserializer);
 
   @protected
   Set<String> sse_decode_Set_String(SseDeserializer deserializer);
@@ -436,18 +441,20 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
       RtcFileSender self, SseSerializer serializer);
 
   @protected
-  void sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveState(
-      RtcReceiveState self, SseSerializer serializer);
+  void sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveController(
+      RtcReceiveController self, SseSerializer serializer);
 
   @protected
-  void sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendState(RtcSendState self, SseSerializer serializer);
+  void sse_encode_Auto_Owned_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendController(
+      RtcSendController self, SseSerializer serializer);
 
   @protected
-  void sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveState(
-      RtcReceiveState self, SseSerializer serializer);
+  void sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveController(
+      RtcReceiveController self, SseSerializer serializer);
 
   @protected
-  void sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendState(RtcSendState self, SseSerializer serializer);
+  void sse_encode_Auto_RefMut_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendController(
+      RtcSendController self, SseSerializer serializer);
 
   @protected
   void sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerLsSignalingConnection(
@@ -461,11 +468,12 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCFileSender(RtcFileSender self, SseSerializer serializer);
 
   @protected
-  void sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveState(
-      RtcReceiveState self, SseSerializer serializer);
+  void sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveController(
+      RtcReceiveController self, SseSerializer serializer);
 
   @protected
-  void sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendState(RtcSendState self, SseSerializer serializer);
+  void sse_encode_Auto_Ref_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendController(
+      RtcSendController self, SseSerializer serializer);
 
   @protected
   void
@@ -486,10 +494,11 @@ abstract class RustLibApiImplPlatform extends BaseApiImpl<RustLibWire> {
   void sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCFileSender(RtcFileSender self, SseSerializer serializer);
 
   @protected
-  void sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveState(RtcReceiveState self, SseSerializer serializer);
+  void sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveController(
+      RtcReceiveController self, SseSerializer serializer);
 
   @protected
-  void sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendState(RtcSendState self, SseSerializer serializer);
+  void sse_encode_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendController(RtcSendController self, SseSerializer serializer);
 
   @protected
   void sse_encode_Set_String(Set<String> self, SseSerializer serializer);
@@ -645,17 +654,17 @@ class RustLibWire implements BaseWire {
   void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCFileSender(int ptr) =>
       wasmModule.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCFileSender(ptr);
 
-  void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveState(int ptr) =>
-      wasmModule.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveState(ptr);
+  void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveController(int ptr) =>
+      wasmModule.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveController(ptr);
 
-  void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveState(int ptr) =>
-      wasmModule.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveState(ptr);
+  void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveController(int ptr) =>
+      wasmModule.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveController(ptr);
 
-  void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendState(int ptr) =>
-      wasmModule.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendState(ptr);
+  void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendController(int ptr) =>
+      wasmModule.rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendController(ptr);
 
-  void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendState(int ptr) =>
-      wasmModule.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendState(ptr);
+  void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendController(int ptr) =>
+      wasmModule.rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendController(ptr);
 }
 
 @JS('wasm_bindgen')
@@ -676,11 +685,11 @@ extension type RustLibWasmModule._(JSObject _) implements JSObject {
 
   external void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCFileSender(int ptr);
 
-  external void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveState(int ptr);
+  external void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveController(int ptr);
 
-  external void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveState(int ptr);
+  external void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCReceiveController(int ptr);
 
-  external void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendState(int ptr);
+  external void rust_arc_increment_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendController(int ptr);
 
-  external void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendState(int ptr);
+  external void rust_arc_decrement_strong_count_RustOpaque_flutter_rust_bridgefor_generatedRustAutoOpaqueInnerRTCSendController(int ptr);
 }

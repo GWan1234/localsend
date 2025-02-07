@@ -30,7 +30,7 @@ pub async fn connect(
 
     let (managed_connection, mut rx) = connection.start_listener();
     on_connection(LsSignalingConnection {
-        inner: managed_connection,
+        inner: Arc::new(managed_connection),
     })
     .await;
 
@@ -40,36 +40,44 @@ pub async fn connect(
 }
 
 pub struct LsSignalingConnection {
-    inner: ManagedSignalingConnection,
+    inner: Arc<ManagedSignalingConnection>,
 }
 
 impl LsSignalingConnection {
-    pub async fn send_offer(
+    pub fn send_offer(
         &self,
         stun_servers: Vec<String>,
         target: Uuid,
         files: Vec<FileDto>,
-    ) -> anyhow::Result<RTCSendState> {
+    ) -> anyhow::Result<RTCSendController> {
         let (status_tx, status_rx) = mpsc::channel::<RTCStatus>(1);
         let (selected_tx, selected_rx) = oneshot::channel::<HashSet<String>>();
         let (error_tx, error_rx) = mpsc::channel::<RTCFileError>(1);
         let (pin_tx, pin_rx) = mpsc::channel::<String>(1);
         let (send_tx, send_rx) = mpsc::channel::<RTCFile>(1);
 
-        localsend::webrtc::webrtc::send_offer(
-            &self.inner,
-            stun_servers,
-            target,
-            files,
-            status_tx,
-            selected_tx,
-            error_tx,
-            pin_rx,
-            send_rx,
-        )
-        .await?;
+        let managed_connection = self.inner.clone();
 
-        Ok(RTCSendState {
+        tokio::spawn(async move {
+            let result = localsend::webrtc::webrtc::send_offer(
+                &managed_connection,
+                stun_servers,
+                target,
+                files,
+                status_tx.clone(),
+                selected_tx,
+                error_tx,
+                pin_rx,
+                send_rx,
+            )
+            .await;
+
+            if let Err(e) = result {
+                let _ = status_tx.send(RTCStatus::Error(e.to_string())).await;
+            }
+        });
+
+        Ok(RTCSendController {
             status_rx,
             selected_rx: Arc::new(Mutex::new(Some(selected_rx))),
             error_rx,
@@ -78,12 +86,12 @@ impl LsSignalingConnection {
         })
     }
 
-    pub async fn accept_offer(
+    pub fn accept_offer(
         &self,
         stun_servers: Vec<String>,
         offer: WsServerSdpMessage,
         pin: Option<PinConfig>,
-    ) -> anyhow::Result<RTCReceiveState> {
+    ) -> anyhow::Result<RTCReceiveController> {
         let (status_tx, status_rx) = mpsc::channel::<RTCStatus>(1);
         let (files_tx, files_rx) = oneshot::channel::<Vec<FileDto>>();
         let (selected_tx, selected_rx) = oneshot::channel::<Option<HashSet<String>>>();
@@ -91,21 +99,29 @@ impl LsSignalingConnection {
         let (receiving_tx, receiving_rx) = mpsc::channel::<RTCFile>(1);
         let (file_status_tx, file_status_rx) = mpsc::channel::<RTCSendFileResponse>(1);
 
-        localsend::webrtc::webrtc::accept_offer(
-            &self.inner,
-            stun_servers,
-            &offer,
-            pin,
-            status_tx,
-            files_tx,
-            selected_rx,
-            error_tx,
-            receiving_tx,
-            file_status_rx,
-        )
-        .await?;
+        let managed_connection = self.inner.clone();
 
-        Ok(RTCReceiveState {
+        tokio::spawn(async move {
+            let result = localsend::webrtc::webrtc::accept_offer(
+                &managed_connection,
+                stun_servers,
+                &offer,
+                pin,
+                status_tx.clone(),
+                files_tx,
+                selected_rx,
+                error_tx,
+                receiving_tx,
+                file_status_rx,
+            )
+            .await;
+
+            if let Err(e) = result {
+                let _ = status_tx.send(RTCStatus::Error(e.to_string())).await;
+            }
+        });
+
+        Ok(RTCReceiveController {
             status_rx,
             files_rx: Arc::new(Mutex::new(Some(files_rx))),
             selected_tx: Arc::new(Mutex::new(Some(selected_tx))),
@@ -116,7 +132,7 @@ impl LsSignalingConnection {
     }
 }
 
-pub struct RTCSendState {
+pub struct RTCSendController {
     status_rx: mpsc::Receiver<RTCStatus>,
     selected_rx: Arc<Mutex<Option<oneshot::Receiver<HashSet<String>>>>>,
     error_rx: mpsc::Receiver<RTCFileError>,
@@ -124,7 +140,7 @@ pub struct RTCSendState {
     send_tx: mpsc::Sender<RTCFile>,
 }
 
-impl RTCSendState {
+impl RTCSendController {
     pub async fn listen_status(&mut self, sink: StreamSink<RTCStatus>) {
         while let Some(status) = self.status_rx.recv().await {
             let _ = sink.add(status);
@@ -178,7 +194,7 @@ impl RTCFileSender {
     }
 }
 
-pub struct RTCReceiveState {
+pub struct RTCReceiveController {
     status_rx: mpsc::Receiver<RTCStatus>,
     files_rx: Arc<Mutex<Option<oneshot::Receiver<Vec<FileDto>>>>>,
     selected_tx: Arc<Mutex<Option<oneshot::Sender<Option<HashSet<String>>>>>>,
@@ -187,7 +203,7 @@ pub struct RTCReceiveState {
     file_status_tx: mpsc::Sender<RTCSendFileResponse>,
 }
 
-impl RTCReceiveState {
+impl RTCReceiveController {
     pub async fn listen_status(&mut self, sink: StreamSink<RTCStatus>) {
         while let Some(status) = self.status_rx.recv().await {
             let _ = sink.add(status);
@@ -211,7 +227,9 @@ impl RTCReceiveState {
             return Err(anyhow::anyhow!("Selected files already sent"));
         };
 
-        selected_tx.send(Some(selection)).map_err(|_| anyhow::anyhow!("Selected files channel closed"))?;
+        selected_tx
+            .send(Some(selection))
+            .map_err(|_| anyhow::anyhow!("Selected files channel closed"))?;
 
         Ok(())
     }
@@ -221,7 +239,9 @@ impl RTCReceiveState {
             return Err(anyhow::anyhow!("Selected files already sent"));
         };
 
-        selected_tx.send(None).map_err(|_| anyhow::anyhow!("Selected files channel closed"))?;
+        selected_tx
+            .send(None)
+            .map_err(|_| anyhow::anyhow!("Selected files channel closed"))?;
 
         Ok(())
     }

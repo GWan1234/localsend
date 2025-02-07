@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:common/model/device.dart';
 import 'package:common/model/session_status.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -7,7 +8,6 @@ import 'package:localsend_app/config/theme.dart';
 import 'package:localsend_app/gen/strings.g.dart';
 import 'package:localsend_app/model/persistence/color_mode.dart';
 import 'package:localsend_app/pages/receive_options_page.dart';
-import 'package:localsend_app/pages/receive_page_controller.dart';
 import 'package:localsend_app/provider/favorites_provider.dart';
 import 'package:localsend_app/provider/selection/selected_receiving_files_provider.dart';
 import 'package:localsend_app/provider/settings_provider.dart';
@@ -23,23 +23,53 @@ import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+class ReceivePageVm {
+  final SessionStatus? status;
+  final Device sender;
+
+  /// Show hashtag and device model.
+  final bool showSenderInfo;
+  final int fileCount;
+  final String? message;
+  final bool isLink;
+  final void Function() onAccept;
+  final void Function() onDecline;
+  final void Function() onClose;
+
+  ReceivePageVm({
+    required this.status,
+    required this.sender,
+    required this.showSenderInfo,
+    required this.fileCount,
+    required this.message,
+    required this.onAccept,
+    required this.onDecline,
+    required this.onClose,
+  }) : isLink = message != null && (Uri.tryParse(message)?.isAbsolute ?? false);
+}
+
 class ReceivePage extends StatefulWidget {
-  const ReceivePage({super.key});
+  final ViewProvider<ReceivePageVm> vm;
+
+  const ReceivePage(this.vm);
 
   @override
   State<ReceivePage> createState() => _ReceivePageState();
 }
 
 class _ReceivePageState extends State<ReceivePage> with Refena {
+  bool _showFullIp = false;
+
   @override
   void dispose() {
     super.dispose();
+    ref.dispose(widget.vm);
     unawaited(TaskbarHelper.clearProgressBar());
   }
 
   @override
   Widget build(BuildContext context) {
-    final vm = context.watch(receivePageControllerProvider, listener: (prev, next) {
+    final vm = context.watch(widget.vm, listener: (prev, next) {
       if (prev.status != next.status) {
         // ignore: discarded_futures
         TaskbarHelper.visualizeStatus(next.status);
@@ -83,13 +113,19 @@ class _ReceivePageState extends State<ReceivePage> with Refena {
                                   padding: const EdgeInsets.only(bottom: 10),
                                   child: Icon(vm.sender.deviceType.icon, size: 64),
                                 ),
-                              FittedBox(
-                                child: Text(
-                                  senderFavoriteEntry?.alias ?? vm.sender.alias,
-                                  style: TextStyle(fontSize: smallUi ? 32 : 48),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
+                              Builder(builder: (context) {
+                                final alias = senderFavoriteEntry?.alias ?? vm.sender.alias;
+                                if (alias.isEmpty) {
+                                  return Text('', style: TextStyle(fontSize: smallUi ? 32 : 48));
+                                }
+                                return FittedBox(
+                                  child: Text(
+                                    alias,
+                                    style: TextStyle(fontSize: smallUi ? 32 : 48),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                );
+                              }),
                               if (vm.showSenderInfo) ...[
                                 const SizedBox(height: 10),
                                 Row(
@@ -97,13 +133,15 @@ class _ReceivePageState extends State<ReceivePage> with Refena {
                                   children: [
                                     InkWell(
                                       onTap: () {
-                                        context.redux(receivePageControllerProvider).dispatch(SetShowFullIpAction(!vm.showFullIp));
+                                        setState(() {
+                                          _showFullIp = !_showFullIp;
+                                        });
                                       },
                                       child: DeviceBadge(
                                         backgroundColor: Theme.of(context).colorScheme.onSecondaryContainer,
                                         foregroundColor: Theme.of(context).colorScheme.onInverseSurface,
                                         label: switch (vm.sender.ip) {
-                                          String ip => vm.showFullIp ? ip : '#${ip.visualId}',
+                                          String ip => _showFullIp ? ip : '#${ip.visualId}',
                                           null => 'WebRTC',
                                         },
                                       ),
